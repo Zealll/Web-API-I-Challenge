@@ -42,24 +42,36 @@ server.get('/api/users/:id', (req, res) => {
 server.post('/api/users', (req, res) => {
     const user = req.body
 
-    if(!user.name || !user.bio){
-       res
-       .status(400)
-       .json({errorMessage: "Please provide name and bio for the user."}) 
-    }
+    // if(!user.name || !user.bio){
+    //    res
+    //    .status(400)
+    //    .json({errorMessage: "Please provide name and bio for the user."}).end() 
+    // } 
 
-    db
+    if(user.name && user.bio) {
+        db
     .insert(user)
     .then(newUser => {
         res
         .status(201)
         .json(newUser)
     })
-    .catch(() => {
+    .catch(err => {
         res
         .status(500)
-        .json({errorMessage: "Please provide name and bio for the user."})
+        .json({errorMessage: `sorry something went wrong on our end ${err}`})
     })
+    } else {
+        res
+       .status(400)
+       .json({errorMessage: "Please provide name and bio for the user."}).end() 
+    }
+
+
+    
+    
+
+    
 })
 
 server.delete('/api/users/:id', (req, res) => {
@@ -87,13 +99,14 @@ server.put('/api/users/:id', (req, res) => {
     const id = req.params.id;
     const changedUser = req.body;
 
-    if (!changedUser.name || !changedUser.bio) {
-        res
-        .status(400)
-        .json({errorMessage: "Please provide name and bio for the user."})
-    }
+    // if (!changedUser.name || !changedUser.bio) {
+    //     res
+    //     .status(400)
+    //     .json({errorMessage: "Please provide name and bio for the user."})
+    // }
 
-    db
+    if (changedUser.name && changedUser.bio) {
+        db
     .update(id, changedUser)
     .then(updated => {
         if(!updated) {
@@ -106,11 +119,18 @@ server.put('/api/users/:id', (req, res) => {
             .json(updated)
         }
     })
-    .catch(() => {
+    .catch(err => {
         res
         .status(500) 
         .json({error: "The user information could not be modified."})
     })
+    } {
+        res
+        .status(400)
+        .json({errorMessage: "Please provide name and bio for the user."})
+    }
+
+    
 })
 
 
