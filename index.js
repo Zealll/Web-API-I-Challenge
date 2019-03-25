@@ -12,7 +12,7 @@ server.get('/api/users', (req, res) => {
     db
     .find()
     .then(everyone => { res.status(200).json(everyone) })
-    .catch(err => {
+    .catch(() => {
         res
         .status(500)
         .json("The users information could not be retrieved.")
@@ -32,7 +32,7 @@ server.get('/api/users/:id', (req, res) => {
             res.json(individual)
         }
     })
-    .catch(err => {
+    .catch(() => {
         res
         .status(500)
         .json({message: "The user information could not be retrieved."})
@@ -55,7 +55,7 @@ server.post('/api/users', (req, res) => {
         .status(201)
         .json(newUser)
     })
-    .catch(err => {
+    .catch(() => {
         res
         .status(500)
         .json({errorMessage: "Please provide name and bio for the user."})
@@ -76,7 +76,7 @@ server.delete('/api/users/:id', (req, res) => {
             res.json("deleted").end()
         }
     })
-    .catch(err => {
+    .catch(() => {
         res
         .status(500)
         .json({error: "The user could not be removed"})
@@ -106,7 +106,7 @@ server.put('/api/users/:id', (req, res) => {
             .json(updated)
         }
     })
-    .catch(err => {
+    .catch(() => {
         res
         .status(500) 
         .json({error: "The user information could not be modified."})
