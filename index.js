@@ -99,14 +99,12 @@ server.put('/api/users/:id', (req, res) => {
     const id = req.params.id;
     const changedUser = req.body;
 
-    // if (!changedUser.name || !changedUser.bio) {
-    //     res
-    //     .status(400)
-    //     .json({errorMessage: "Please provide name and bio for the user."})
-    // }
-
-    if (changedUser.name && changedUser.bio) {
-        db
+    if (!changedUser.name || !changedUser.bio) {
+        res
+        .status(400)
+        .json({errorMessage: "Please provide name and bio for the user."})
+    } else {
+         db
     .update(id, changedUser)
     .then(updated => {
         if(!updated) {
@@ -124,14 +122,18 @@ server.put('/api/users/:id', (req, res) => {
         .status(500) 
         .json({error: "The user information could not be modified."})
     })
-    } {
+    
         res
         .status(400)
         .json({errorMessage: "Please provide name and bio for the user."})
-    }
+    
 
     
-})
+}
+    })
+
+    
+       
 
 
 
